@@ -1,14 +1,22 @@
 package com.jeff_skillrill.caller.Adapters
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jeff_skillrill.caller.R
 
-class ContactAdapter(var list:MutableList<Contact>, var contInterface: ContactInterface) : RecyclerView.Adapter<ContactAdapter.ContactHolder>() {
+class ContactAdapter(var list:MutableList<Contact>, var contInterface: ContactInterface, var context: Context, var activity: Activity) : RecyclerView.Adapter<ContactAdapter.ContactHolder>() {
 
     var onItemClick : ((Contact) -> Unit)? = null
     fun FilteredList(list: MutableList<Contact>){
@@ -19,6 +27,7 @@ class ContactAdapter(var list:MutableList<Contact>, var contInterface: ContactIn
         var name: TextView = itemView.findViewById(R.id.name)
         var phone: TextView = itemView.findViewById(R.id.phone)
         var contactlayout: ConstraintLayout = itemView.findViewById(R.id.cont_lay)
+        var call: ImageView = itemView.findViewById(R.id.call)
     }
 
 
@@ -34,6 +43,9 @@ class ContactAdapter(var list:MutableList<Contact>, var contInterface: ContactIn
         holder.contactlayout.setOnClickListener {
             contInterface.onClick(item)
         }
+        holder.call.setOnClickListener {
+            openCall(item.phone)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -43,6 +55,26 @@ class ContactAdapter(var list:MutableList<Contact>, var contInterface: ContactIn
     interface ContactInterface{
         fun onClick(contact: Contact){
 
+        }
+    }
+
+    fun openCall(number: String) {
+        if (ContextCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.CALL_PHONE
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                activity, arrayOf(android.Manifest.permission.CALL_PHONE),
+                1
+            )
+        } else {
+            if (number.isNotEmpty()) {
+                val callIntent = Intent(Intent.ACTION_CALL)
+                callIntent.data = Uri.parse("tel:$number")
+                activity.startActivity(callIntent)
+            }
         }
     }
 }

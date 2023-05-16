@@ -1,5 +1,7 @@
 package com.jeff_skillrill.caller
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -47,14 +49,13 @@ class FragmentContacts : Fragment() {
             binding.box.visibility = View.VISIBLE
         }
         else{
-          adapter = ContactAdapter(contacts, object : ContactAdapter.ContactInterface{
-                override fun onClick(contact: Contact) {
-                    val bundle = bundleOf()
-                    bundle.putSerializable("contact",contact)
-                    findNavController().navigate(R.id.action_fragmentContacts_to_viewFragment,bundle)
-                }
-
-            })
+          adapter = ContactAdapter(contacts, object : ContactAdapter.ContactInterface {
+              override fun onClick(contact: Contact) {
+                  val bundle = bundleOf()
+                  bundle.putSerializable("contact", contact)
+                  findNavController().navigate(R.id.action_fragmentContacts_to_viewFragment, bundle)
+              }
+          }, activity = Activity() )
 
             binding.contactRv.adapter = adapter
         }
@@ -79,6 +80,7 @@ class FragmentContacts : Fragment() {
 
         return binding.root
     }
+
     private fun filterList(query: String?, adapter: ContactAdapter){
         if(query != null){
             val filteredList = ArrayList<Contact>()
