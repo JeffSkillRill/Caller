@@ -20,7 +20,7 @@
         android:id="@+id/contact_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Muxtorxonov Bekzod"
+        android:text="Jeff SkillRill"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,8 +34,7 @@
         android:id="@+id/contact_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="70dp"
-        android:text="+998 88 788 12 05"
+        android:text="+998 99 990 99 99"
         app:layout_constraintEnd_toEndOf="@+id/contact_name"
         app:layout_constraintStart_toStartOf="@+id/contact_name"
         app:layout_constraintTop_toBottomOf="@+id/contact_name" />
